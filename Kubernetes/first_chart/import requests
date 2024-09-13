@@ -1,0 +1,70 @@
+import requests
+import json
+import pandas as pd
+import pprint
+import sys
+import csv
+import boto3
+from datetime import datetime
+from requests.packages import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+now = datetime.now() 
+now = now.strftime("%d:%m:%Y")
+
+Course = sys.argv[1]
+id=''
+DownloadLink=''
+PlayBackLink=''
+
+Password=''
+access_token=''
+
+filename='attendees.csv'
+from_address = 'info@qprofiles.com'
+print("Course",Course)
+subject = now + ' - ' + Course +' Class Record.'
+
+
+def get_access_token():
+    clientId='C6226d51f5873795a461e6b342906c3a157ce3fb950d5ee3a018e697e74a863f3'
+    clientSecret='5edb029d0e25ee96ad00c753d607c8a98aceeb07f16a8c30371d70b9922da1db'
+    refreshToken='MmM1OGI1ZTgtNGFjYy00ZDk4LTg0YjYtYjIxOTdhMDQ3MTlhMjlmY2UzZWEtNDFk_P0A1_844feda9-1d58-444c-9947-7f10ed4a5b44'
+    token_req_payload = {'grant_type': 'refresh_token','client_id': clientId ,'client_secret': clientSecret,'refresh_token': refreshToken}
+    get_token = "https://webexapis.com/v1/access_token"
+    headers = {'Content-Type': 'application/json'}
+    json_payload = json.dumps(token_req_payload)
+    print("----token_req_payload : ", token_req_payload)
+    response = requests.request("POST", get_token, headers=headers, data=json_payload)
+    token_response = json.loads(response.text)
+    print("----token_response : ", token_response )
+    access_token = token_response.get("access_token")
+    return access_token
+   
+    
+# ADD NEW WEBINARS IN ANOTHER ELSE BLOCK AND COURSE NAME WILL BE FOLDER NAME
+# OF THE RESPECTIVE COURSE
+
+if Course == "Devops-Aug23":
+    id="training1@qprofiles.com"
+    
+elif Course == "FS-Sep23":
+    id="training2@qprofiles.com"
+
+elif Course == "Devops-Nov23":
+    id="training5@qprofiles.com"
+    
+access_token=get_access_token()
+def list_webinars_record(access_token,id):
+    print("----",id)
+    url =  "https://webexapis.com/v1/recordings?max=100&hostEmail="+id+"&siteUrl=qprofiles.webex.com"
+    headers = {'Authorization': 'Bearer ' + access_token}
+    response = requests.request("GET", url, headers=headers)
+    resp = json.loads(response.text)
+    print("----resp ",resp)
+    DownloadLink = resp.get("items")[0].get("downloadUrl")
+    PlayBackLink = resp.get("items")[0].get("playbackUrl")
+    Password = resp.get("items")[0].get("password")       
+    return DownloadLink, PlayBackLink, Password;
+
+list_webinars_record(access_token,id)
