@@ -36,4 +36,5 @@ Application Set: A feature in Argo CD that allows managing multiple similar appl
 Health Status: The condition or state of an application, indicates whether it is running as expected or if there are issues.
 Hooks: Custom scripts or commands that can be executed before or after a synchronization operation. Hooks are defined in the Argo CD Application configuration.
 Custom Resource Definition (CRD): An extension of the Kubernetes API that represents a customization of a particular resource, such as an application (Application CR).
-                  kubectl get app (OR) kubectl get application
+                  
+kubectl get app (OR) kubectl get application
