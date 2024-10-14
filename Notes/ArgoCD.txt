@@ -1,0 +1,39 @@
+Git Repository:
+  1. Argo CD relies on Git repositories to store and version your Kubernetes manifests and application configuration files.
+  2. The Git repository is where you define the desired state of your applications and environments.
+
+Argo CD Controller:
+  1. The Argo CD controller is a Kubernetes controller that continuously monitors the Git repository for changes to the desired state.
+  2. When changes are detected, the controller reconciles the current state of the cluster with the desired state defined in the Git repository.
+  3. It uses a pull-based approach, meaning it pulls the configuration from the Git repository and applies it to the cluster.
+
+Custom Resource Definitions (CRDs):
+Argo CD extends Kubernetes by introducing custom resource definitions (CRDs) to define applications and application sets.
+The Application CRD is used to represent a deployed application and its desired state.
+
+Application Set Controller:
+  1. Argo CD introduced the notion of an "Application Set" for managing multiple similar applications in a more streamlined way.
+  2. The AppSet controller watches for changes in Application Sets and manages the creation and deletion of individual applications.
+
+User Interface (Web UI):
+Argo CD provides a web-based user interface that allows users to visualize the applications, compare the current and desired states, and manually synchronize or rollback deployments.
+
+API Server:
+Its The k8s API server only which handles communication between the Argo CD CLI, Web UI, and the Argo CD controller.
+It exposes RESTful APIs for interacting with Argo CD.
+
+Metrics and Monitoring:
+Argo CD supports metrics and monitoring, allowing you to gather data on the performance and health of the Argo CD components.
+
+Interview Terminologies
+
+Argo CD: The primary tool for declarative continuous delivery of Kubernetes applications. It uses Git repositories as the source of truth for application configuration.
+Application CRD: Custom Resource Definition in Kubernetes used by Argo CD to represent a deployed application and its desired state.
+Sync Operation (Synchronize): The process by which Argo CD reconciles the desired state defined in the Git repository (yaml files) with the current state of the Kubernetes cluster.
+Sync Policy: Configurable settings that define how often Argo CD should check the Git repository for changes and synchronize with the Kubernetes cluster.
+Rollback: The action of reverting to a previous state of an application or environment, usually triggered in response to issues or failures.
+Application Set: A feature in Argo CD that allows managing multiple similar applications using a single definition.
+Health Status: The condition or state of an application, indicates whether it is running as expected or if there are issues.
+Hooks: Custom scripts or commands that can be executed before or after a synchronization operation. Hooks are defined in the Argo CD Application configuration.
+Custom Resource Definition (CRD): An extension of the Kubernetes API that represents a customization of a particular resource, such as an application (Application CR).
+                  kubectl get app (OR) kubectl get application
